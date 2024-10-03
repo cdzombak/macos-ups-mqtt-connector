@@ -3,8 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
+
+/* Begin PBXBuildFile section */
+		09DD2D61217A698C4A72C0AF /* libPods-macos-ups-mqtt-connector-objc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46BD19728ABBB053417F5FBF /* libPods-macos-ups-mqtt-connector-objc.a */; };
+		934D48682CAF177200A62BC1 /* args.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D485F2CAF177200A62BC1 /* args.m */; };
+		934D48692CAF177200A62BC1 /* CDZUPSReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D48612CAF177200A62BC1 /* CDZUPSReporter.m */; };
+		934D486A2CAF177200A62BC1 /* fatal.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D48632CAF177200A62BC1 /* fatal.m */; };
+		934D486B2CAF177200A62BC1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D48642CAF177200A62BC1 /* main.m */; };
+		934D486C2CAF177200A62BC1 /* print.m in Sources */ = {isa = PBXBuildFile; fileRef = 934D48662CAF177200A62BC1 /* print.m */; };
+/* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		934D48072CAEDCAF00A62BC1 /* CopyFiles */ = {
@@ -16,70 +25,117 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		934D483B2CAF0B5000A62BC1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		934D48092CAEDCAF00A62BC1 /* macos-ups-mqtt-connector-objc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "macos-ups-mqtt-connector-objc"; sourceTree = BUILT_PRODUCTS_DIR; };
+		46BD19728ABBB053417F5FBF /* libPods-macos-ups-mqtt-connector-objc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-macos-ups-mqtt-connector-objc.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		934D48092CAEDCAF00A62BC1 /* macos-ups-mqtt-connector */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "macos-ups-mqtt-connector"; sourceTree = BUILT_PRODUCTS_DIR; };
+		934D485E2CAF177200A62BC1 /* args.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = args.h; sourceTree = "<group>"; };
+		934D485F2CAF177200A62BC1 /* args.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = args.m; sourceTree = "<group>"; };
+		934D48602CAF177200A62BC1 /* CDZUPSReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDZUPSReporter.h; sourceTree = "<group>"; };
+		934D48612CAF177200A62BC1 /* CDZUPSReporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDZUPSReporter.m; sourceTree = "<group>"; };
+		934D48622CAF177200A62BC1 /* fatal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fatal.h; sourceTree = "<group>"; };
+		934D48632CAF177200A62BC1 /* fatal.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fatal.m; sourceTree = "<group>"; };
+		934D48642CAF177200A62BC1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		934D48652CAF177200A62BC1 /* print.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = print.h; sourceTree = "<group>"; };
+		934D48662CAF177200A62BC1 /* print.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = print.m; sourceTree = "<group>"; };
+		C35067E467CBF7B73274529F /* Pods-macos-ups-mqtt-connector-objc.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-macos-ups-mqtt-connector-objc.release.xcconfig"; path = "Target Support Files/Pods-macos-ups-mqtt-connector-objc/Pods-macos-ups-mqtt-connector-objc.release.xcconfig"; sourceTree = "<group>"; };
+		F44554C079AC926B69619A34 /* Pods-macos-ups-mqtt-connector-objc.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-macos-ups-mqtt-connector-objc.debug.xcconfig"; path = "Target Support Files/Pods-macos-ups-mqtt-connector-objc/Pods-macos-ups-mqtt-connector-objc.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		934D480B2CAEDCAF00A62BC1 /* macos-ups-mqtt-connector-objc */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "macos-ups-mqtt-connector-objc";
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		934D48062CAEDCAF00A62BC1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09DD2D61217A698C4A72C0AF /* libPods-macos-ups-mqtt-connector-objc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		003266FACA98372D31D3FAA7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F44554C079AC926B69619A34 /* Pods-macos-ups-mqtt-connector-objc.debug.xcconfig */,
+				C35067E467CBF7B73274529F /* Pods-macos-ups-mqtt-connector-objc.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		934D48002CAEDCAF00A62BC1 = {
 			isa = PBXGroup;
 			children = (
-				934D480B2CAEDCAF00A62BC1 /* macos-ups-mqtt-connector-objc */,
+				934D48672CAF177200A62BC1 /* macos-ups-mqtt-connector-objc */,
+				934D48382CAF0B5000A62BC1 /* Frameworks */,
 				934D480A2CAEDCAF00A62BC1 /* Products */,
+				003266FACA98372D31D3FAA7 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
 		934D480A2CAEDCAF00A62BC1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				934D48092CAEDCAF00A62BC1 /* macos-ups-mqtt-connector-objc */,
+				934D48092CAEDCAF00A62BC1 /* macos-ups-mqtt-connector */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		934D48382CAF0B5000A62BC1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				46BD19728ABBB053417F5FBF /* libPods-macos-ups-mqtt-connector-objc.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		934D48672CAF177200A62BC1 /* macos-ups-mqtt-connector-objc */ = {
+			isa = PBXGroup;
+			children = (
+				934D485E2CAF177200A62BC1 /* args.h */,
+				934D485F2CAF177200A62BC1 /* args.m */,
+				934D48602CAF177200A62BC1 /* CDZUPSReporter.h */,
+				934D48612CAF177200A62BC1 /* CDZUPSReporter.m */,
+				934D48622CAF177200A62BC1 /* fatal.h */,
+				934D48632CAF177200A62BC1 /* fatal.m */,
+				934D48642CAF177200A62BC1 /* main.m */,
+				934D48652CAF177200A62BC1 /* print.h */,
+				934D48662CAF177200A62BC1 /* print.m */,
+			);
+			path = "macos-ups-mqtt-connector-objc";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		934D48082CAEDCAF00A62BC1 /* macos-ups-mqtt-connector-objc */ = {
+		934D48082CAEDCAF00A62BC1 /* macos-ups-mqtt-connector */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 934D48102CAEDCAF00A62BC1 /* Build configuration list for PBXNativeTarget "macos-ups-mqtt-connector-objc" */;
+			buildConfigurationList = 934D48102CAEDCAF00A62BC1 /* Build configuration list for PBXNativeTarget "macos-ups-mqtt-connector" */;
 			buildPhases = (
+				15C76FDE3BEC56B691A87446 /* [CP] Check Pods Manifest.lock */,
 				934D48052CAEDCAF00A62BC1 /* Sources */,
 				934D48062CAEDCAF00A62BC1 /* Frameworks */,
 				934D48072CAEDCAF00A62BC1 /* CopyFiles */,
+				934D483B2CAF0B5000A62BC1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				934D480B2CAEDCAF00A62BC1 /* macos-ups-mqtt-connector-objc */,
-			);
-			name = "macos-ups-mqtt-connector-objc";
-			packageProductDependencies = (
-			);
+			name = "macos-ups-mqtt-connector";
 			productName = "macos-ups-mqtt-connector-objc";
-			productReference = 934D48092CAEDCAF00A62BC1 /* macos-ups-mqtt-connector-objc */;
+			productReference = 934D48092CAEDCAF00A62BC1 /* macos-ups-mqtt-connector */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -97,6 +153,7 @@
 				};
 			};
 			buildConfigurationList = 934D48042CAEDCAF00A62BC1 /* Build configuration list for PBXProject "macos-ups-mqtt-connector-objc" */;
+			compatibilityVersion = "Xcode 15.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -105,21 +162,50 @@
 			);
 			mainGroup = 934D48002CAEDCAF00A62BC1;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = 934D480A2CAEDCAF00A62BC1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				934D48082CAEDCAF00A62BC1 /* macos-ups-mqtt-connector-objc */,
+				934D48082CAEDCAF00A62BC1 /* macos-ups-mqtt-connector */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		15C76FDE3BEC56B691A87446 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-macos-ups-mqtt-connector-objc-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		934D48052CAEDCAF00A62BC1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				934D48682CAF177200A62BC1 /* args.m in Sources */,
+				934D48692CAF177200A62BC1 /* CDZUPSReporter.m in Sources */,
+				934D486A2CAF177200A62BC1 /* fatal.m in Sources */,
+				934D486B2CAF177200A62BC1 /* main.m in Sources */,
+				934D486C2CAF177200A62BC1 /* print.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +246,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -221,6 +308,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -243,20 +331,26 @@
 		};
 		934D48112CAEDCAF00A62BC1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F44554C079AC926B69619A34 /* Pods-macos-ups-mqtt-connector-objc.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 4QNZ8566GP;
 				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		934D48122CAEDCAF00A62BC1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C35067E467CBF7B73274529F /* Pods-macos-ups-mqtt-connector-objc.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 4QNZ8566GP;
 				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -273,7 +367,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		934D48102CAEDCAF00A62BC1 /* Build configuration list for PBXNativeTarget "macos-ups-mqtt-connector-objc" */ = {
+		934D48102CAEDCAF00A62BC1 /* Build configuration list for PBXNativeTarget "macos-ups-mqtt-connector" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				934D48112CAEDCAF00A62BC1 /* Debug */,

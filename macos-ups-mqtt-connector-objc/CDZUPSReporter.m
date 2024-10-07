@@ -100,6 +100,13 @@
         [self reportSourceStatus:CFBridgingRelease(IOPSGetPowerSourceDescription(psInfo, CFArrayGetValueAtIndex(powerSources, i)))
                      atTimestamp:nowFmt];
     }
+    
+    if (powerSources != NULL) {
+        CFRelease(powerSources);
+    }
+    if (psInfo != NULL) {
+        CFRelease(psInfo);
+    }
 }
 
 - (void)reportSourceStatus:(NSDictionary *)info atTimestamp:(NSString *)nowFmt {

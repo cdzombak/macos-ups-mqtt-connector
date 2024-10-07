@@ -79,15 +79,21 @@ jobs:
       - name: Build binaries
         run: make all
       - name: Prepare release artifacts
+        id: prepare_artifacts
         working-directory: out/
         run: |
           mkdir ./gh-release
-          find . -name '${{ needs.meta.outputs.bin_name }}-*' -type f -maxdepth 1 -print0 | xargs -0 -I {} gtar --transform='flags=r;s|.*|${{ needs.meta.outputs.bin_name }}|' -czvf ./gh-release/{}.tar.gz {}
+          find . -name '${{ needs.meta.outputs.bin_name }}-*' -type f -maxdepth 1 -print0 | \
+            xargs -0 -I {} gtar --transform='flags=r;s|.*|${{ needs.meta.outputs.bin_name }}|' -czvf ./gh-release/{}-all.tar.gz {}
+          echo "tgz_sha256_allarch=$(shasum -a 256 ./gh-release/${{ needs.meta.outputs.bin_name }}-${{ needs.meta.outputs.bin_version }}-all.tar.gz  | cut -d " " -f 1)" >> "$GITHUB_OUTPUT"
       - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.meta.outputs.bin_name }} Binary Artifacts
           path: out/gh-release/*
+
+    outputs:
+      tgz_sha256_allarch: ${{ steps.prepare_artifacts.outputs.tgz_sha256_allarch }}
 
   release:
     name: GitHub (Pre)Release
@@ -138,19 +144,36 @@ jobs:
     if: needs.meta.outputs.is_release == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: Release to ${{ needs.meta.outputs.brewtap_owner }}/${{ needs.meta.outputs.brewtap_name }} tap
-        uses: Justintime50/homebrew-releaser@v1
+      - name: Checkout source repo
+        uses: actions/checkout@v4
         with:
-          homebrew_owner: ${{ needs.meta.outputs.brewtap_owner }}
-          homebrew_tap: homebrew-${{ needs.meta.outputs.brewtap_name }}
-          formula_folder: ${{ needs.meta.outputs.brewtap_formula_dir }}
-          update_readme_table: true
+          path: src
+
+      - name: Checkout ${{ needs.meta.outputs.brewtap_owner }}/${{ needs.meta.outputs.brewtap_name }} tap repo
+        uses: actions/checkout@v4
+        with:
+          path: brewtap
+          repository: ${{ needs.meta.outputs.brewtap_owner }}/homebrew-${{ needs.meta.outputs.brewtap_name }}
+          token: ${{ secrets.HOMEBREW_RELEASER_PAT }}
+
+      - name: Generate formula file
+        run: |
+          env \
+            FORMULA_VERSION_NO_V="${{ needs.meta.outputs.bin_version }}" \
+            FORMULA_TGZ_SHA256="${{ needs.binaries.outputs.tgz_sha256_allarch }}" \
+            ./src/.formula.sh > ./brewtap/${{ needs.meta.outputs.brewtap_formula_dir }}/${{ needs.meta.outputs.bin_name }}.rb
+
+      - name: Commit and push to tap
+        uses: EndBug/add-and-commit@v9
+        with:
+          cwd: ./brewtap
+          add: "./${{ needs.meta.outputs.brewtap_formula_dir }}/${{ needs.meta.outputs.bin_name }}.rb"
+          author_name: homebrew-releaser-bot
+          author_email: homebrew-releaser-bot@users.noreply.github.com
+          message: "Add ${{ needs.meta.outputs.bin_name }} v${{ needs.meta.outputs.bin_version }}"
+          pathspec_error_handling: exitImmediately
+          push: true
           github_token: ${{ secrets.HOMEBREW_RELEASER_PAT }}
-          commit_owner: homebrew-releaser-bot
-          commit_email: homebrew-releaser-bot@users.noreply.github.com
-          version: v${{ needs.meta.outputs.bin_version }}
-          install: 'bin.install "${{ needs.meta.outputs.bin_name }}"'
-          test: 'assert_match("${{ needs.meta.outputs.bin_version }}", shell_output("#{bin}/${{ needs.meta.outputs.bin_name }} -version"))'
 
   ntfy:
     name: Ntfy

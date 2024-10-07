@@ -77,11 +77,23 @@
     }
     
     CFTypeRef psInfo = IOPSCopyPowerSourcesInfo();
+    if (!psInfo) {
+        NSLog(@"WARN: IOPSCopyPowerSourcesInfo returned NULL; skipping this tick");
+        return;
+    }
     CFArrayRef powerSources = IOPSCopyPowerSourcesList(psInfo);
+    if (!powerSources) {
+        NSLog(@"WARN: IOPSCopyPowerSourcesList returned NULL; skipping this tick");
+        if (psInfo) {
+            CFRelease(psInfo);
+            psInfo = NULL;
+        }
+        return;
+    }
     CFIndex i, c = CFArrayGetCount(powerSources);
     
     systemStatusMessage[@"fields"][@"power_source_count"] = @(c);
-    systemStatusMessage[@"fields"][@"current_power_source"] = (NSString *)CFBridgingRelease(IOPSGetProvidingPowerSourceType(psInfo));
+    systemStatusMessage[@"fields"][@"current_power_source"] = (__bridge NSString *)IOPSGetProvidingPowerSourceType(psInfo);
     // currentPowerSource is one of: CFSTR(kIOPMACPowerKey), CFSTR(kIOPMBatteryPowerKey), CFSTR(kIOPMUPSPowerKey)
     
     NSError *error;
@@ -97,15 +109,22 @@
     }];
     
     for (i=0; i<c; i++) {
-        [self reportSourceStatus:CFBridgingRelease(IOPSGetPowerSourceDescription(psInfo, CFArrayGetValueAtIndex(powerSources, i)))
+        NSDictionary *ssi = (__bridge NSDictionary *)(IOPSGetPowerSourceDescription(psInfo, CFArrayGetValueAtIndex(powerSources, i)));
+        if (!ssi) {
+            NSLog(@"WARN: IOPSGetPowerSourceDescription returned NULL; skipping this source");
+            continue;
+        }
+        [self reportSourceStatus:ssi
                      atTimestamp:nowFmt];
     }
     
-    if (powerSources != NULL) {
+    if (powerSources) {
         CFRelease(powerSources);
+        powerSources = NULL;
     }
-    if (psInfo != NULL) {
+    if (psInfo) {
         CFRelease(psInfo);
+        psInfo = NULL;
     }
 }
 

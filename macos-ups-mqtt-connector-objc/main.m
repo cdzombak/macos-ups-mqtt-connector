@@ -31,7 +31,8 @@ static void signal_handler(const int signum) {
 NSString *program_version = @"<dev>";
 
 void printHelp(void) {
-    CDZPrint(@"macos-ups-mqtt-connector version %@", program_version);
+    CDZPrint(@"macos-ups-mqtt-connector");
+    CDZPrint(@"version %@", program_version);
     CDZPrint(@"");
     CDZPrint(@"Usage: macos-ups-mqtt-connector OPTIONS");
     CDZPrint(@"");

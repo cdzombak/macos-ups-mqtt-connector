@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>KeepAlive</key>
+	<dict>
+		<key>Crashed</key>
+		<false/>
+	</dict>
+	<key>Label</key>
+	<string>com.dzombak.macos-ups-mqtt-connector</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/usr/local/bin/macos-ups-mqtt-connector</string>
+		<string>-mqtt-host</string>
+		<string>myhomeserver.lan</string>
+		<string>-mqtt-topic</string>
+		<string>home/power/ups</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+</dict>
+</plist>

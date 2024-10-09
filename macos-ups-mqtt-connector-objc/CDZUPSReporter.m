@@ -103,9 +103,7 @@
     }
     NSString *systemStatusTopic = [NSString stringWithFormat:@"%@/system_status", [standardDefaults stringForKey:mqttTopicKey]];
     [self.mqttSession publishData:systemStatusData onTopic:systemStatusTopic retain:NO qos:MQTTQosLevelAtMostOnce publishHandler:^(NSError *error) {
-        if (error != nil) {
-            NSLog(@"error publishing to MQTT topic %@: %@", systemStatusTopic, [error description]);
-        }
+        [self onPublishError:error toTopic:systemStatusTopic];
     }];
     
     for (i=0; i<c; i++) {
@@ -223,9 +221,20 @@
     NSString *sourceStatusTopic = [NSString stringWithFormat:@"%@/source_status", [standardDefaults stringForKey:mqttTopicKey]];
     [self.mqttSession publishData:sourceStatusData onTopic:sourceStatusTopic retain:NO qos:MQTTQosLevelAtMostOnce publishHandler:^(NSError *error) {
         if (error != nil) {
-            NSLog(@"error publishing to MQTT topic %@: %@", sourceStatusTopic, [error description]);
+            [self onPublishError:error toTopic:sourceStatusTopic];
         }
     }];
+}
+
+- (void)onPublishError:(NSError *)error toTopic:(NSString *)topic {
+    if (!error) {
+        return;
+    }
+    if ([error.domain isEqual:MQTTSessionErrorDomain] && error.code == MQTTSessionErrorEncoderNotReady) {
+        CDZFatal(@"error publishing to MQTT topic %@: %@", topic, [error description]);
+    } else {
+        NSLog(@"error publishing to MQTT topic %@: %@", topic, [error description]);
+    }
 }
 
 @end

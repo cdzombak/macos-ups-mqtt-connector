@@ -1,0 +1,89 @@
+mqtt:
+
+  binary_sensor:
+    - name: "Charging"
+      unique_id: "office_desk_ups/charging"
+      device:
+        name: "Office Desk UPS"
+        identifiers: 
+        - "office_desk_ups"
+      state_topic: "dzhome/power/curie/ups/source_status"
+      value_template: "{{ value_json.fields.charging }}"
+      payload_off: "False"
+      payload_on: "True"
+    - name: "Internal Failure"
+      unique_id: "office_desk_ups/internal_failure"
+      device:
+        name: "Office Desk UPS"
+        identifiers: 
+        - "office_desk_ups"
+      state_topic: "dzhome/power/curie/ups/source_status"
+      value_template: "{{ value_json.fields.internal_failure }}"
+      payload_off: "False"
+      payload_on: "True"
+    - name: "Online"
+      unique_id: "office_desk_ups/online"
+      device:
+        name: "Office Desk UPS"
+        identifiers: 
+        - "office_desk_ups"
+      state_topic: "dzhome/power/curie/ups/source_status"
+      value_template: "{{ value_json.fields.online }}"
+      payload_off: "False"
+      payload_on: "True"
+
+  sensor:
+    - name: "AC Output Power"
+      unique_id: "office_desk_ups/power"
+      device:
+        name: "Office Desk UPS"
+        identifiers: 
+        - "office_desk_ups"
+      state_topic: "dzhome/power/curie/ups/source_status"
+      value_template: "{{ value_json.fields.power }}"
+      unit_of_measurement: "W"
+    - name: "Battery Charge"
+      unique_id: "office_desk_ups/battery_charge"
+      device:
+        name: "Office Desk UPS"
+        identifiers: 
+        - "office_desk_ups"
+      state_topic: "dzhome/power/curie/ups/source_status"
+      value_template: "{{ value_json.fields.battery_charge_percent }}"
+      unit_of_measurement: "%"
+    - name: "Battery Runtime"
+      unique_id: "office_desk_ups/battery_runtime"
+      device:
+        name: "Office Desk UPS"
+        identifiers: 
+        - "office_desk_ups"
+      state_topic: "dzhome/power/curie/ups/source_status"
+      value_template: "{{ value_json.fields.battery_runtime_s }}"
+      unit_of_measurement: "s"
+    - name: "Battery Temperature"
+      unique_id: "office_desk_ups/battery_temperature_f"
+      device:
+        name: "Office Desk UPS"
+        identifiers: 
+        - "office_desk_ups"
+      state_topic: "dzhome/power/curie/ups/source_status"
+      value_template: "{{ value_json.fields.battery_temperature_f }}"
+      unit_of_measurement: "°F"
+    - name: "Output AC Current"
+      unique_id: "office_desk_ups/output_current"
+      device:
+        name: "Office Desk UPS"
+        identifiers: 
+        - "office_desk_ups"
+      state_topic: "dzhome/power/curie/ups/source_status"
+      value_template: "{{ value_json.fields.output_current }}"
+      unit_of_measurement: "A"
+    - name: "Output AC Voltage"
+      unique_id: "office_desk_ups/output_voltage"
+      device:
+        name: "Office Desk UPS"
+        identifiers: 
+        - "office_desk_ups"
+      state_topic: "dzhome/power/curie/ups/source_status"
+      value_template: "{{ value_json.fields.output_voltage }}"
+      unit_of_measurement: "V"

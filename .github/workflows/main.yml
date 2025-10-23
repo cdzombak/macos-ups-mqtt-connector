@@ -78,6 +78,24 @@ jobs:
 
       - name: Build binaries
         run: make all
+      - name: Sign binary
+        if: >-
+          needs.meta.outputs.is_release == 'true' ||
+          needs.meta.outputs.is_prerelease == 'true'
+        working-directory: out/
+        env:
+          DEVID_SIGNING_CERT_BASE64: ${{ secrets.DEVID_SIGNING_CERT }}
+          DEVID_SIGNING_CERT_PASS: ${{ secrets.DEVID_SIGNING_CERT_PASS }}
+          DEVID_SIGNING_CERT_ID: ${{ secrets.DEVID_SIGNING_CERT_ID }}
+          KEYCHAIN_PASS: ${{ secrets.KEYCHAIN_PASS }}
+        run: |
+          security create-keychain -p "$KEYCHAIN_PASS" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASS" build.keychain
+          echo "$DEVID_SIGNING_CERT_BASE64" | base64 --decode > certificate.p12
+          security import certificate.p12 -k build.keychain -P "$DEVID_SIGNING_CERT_PASS" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASS" build.keychain
+          /usr/bin/codesign --force --timestamp --options=runtime -s "$DEVID_SIGNING_CERT_ID" ./${{ needs.meta.outputs.bin_name }}-${{ needs.meta.outputs.bin_version }} -v
       - name: Prepare release artifacts
         id: prepare_artifacts
         working-directory: out/
@@ -86,6 +104,44 @@ jobs:
           find . -name '${{ needs.meta.outputs.bin_name }}-*' -type f -maxdepth 1 -print0 | \
             xargs -0 -I {} gtar --transform='flags=r;s|.*|${{ needs.meta.outputs.bin_name }}|' -czvf ./gh-release/{}-all.tar.gz {}
           echo "tgz_sha256_allarch=$(shasum -a 256 ./gh-release/${{ needs.meta.outputs.bin_name }}-${{ needs.meta.outputs.bin_version }}-all.tar.gz  | cut -d " " -f 1)" >> "$GITHUB_OUTPUT"
+      - name: Create .dmg for notarization
+        if: >-
+          needs.meta.outputs.is_release == 'true' ||
+          needs.meta.outputs.is_prerelease == 'true'
+        working-directory: out/
+        run: |
+          mkdir ./.dmg-src
+          xattr -cr ./.dmg-src
+          cp ${{ needs.meta.outputs.bin_name }}-${{ needs.meta.outputs.bin_version }} ./.dmg-src/
+          hdiutil create -srcfolder ./.dmg-src \
+            -fs "HFS+" \
+            -volname "${{ needs.meta.outputs.bin_name }}-${{ needs.meta.outputs.bin_version }}" \
+            ./${{ needs.meta.outputs.bin_name }}-${{ needs.meta.outputs.bin_version }}.dmg
+          hdiutil verify ./${{ needs.meta.outputs.bin_name }}-${{ needs.meta.outputs.bin_version }}.dmg
+      - name: Notarize .dmg
+        if: >-
+          needs.meta.outputs.is_release == 'true' ||
+          needs.meta.outputs.is_prerelease == 'true'
+        working-directory: out/
+        env:
+          NOTARIZATION_APPLE_ID: ${{ secrets.NOTARIZATION_APPLE_ID }}
+          NOTARIZATION_TEAM_ID: ${{ secrets.NOTARIZATION_TEAM_ID }}
+          NOTARIZATION_PASS: ${{ secrets.NOTARIZATION_PASS }}
+        run: |
+          xcrun notarytool store-credentials "notarytool-profile" \
+            --apple-id "$NOTARIZATION_APPLE_ID" \
+            --team-id "$NOTARIZATION_TEAM_ID" \
+            --password "$NOTARIZATION_PASS"
+          xcrun notarytool submit ./${{ needs.meta.outputs.bin_name }}-${{ needs.meta.outputs.bin_version }}.dmg --keychain-profile "notarytool-profile" --wait
+          xcrun stapler staple ./${{ needs.meta.outputs.bin_name }}-${{ needs.meta.outputs.bin_version }}.dmg
+      - name: Upload notarized .dmg artifact
+        if: >-
+          needs.meta.outputs.is_release == 'true' ||
+          needs.meta.outputs.is_prerelease == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.meta.outputs.bin_name }}-${{ needs.meta.outputs.bin_version }}.dmg
+          path: out/${{ needs.meta.outputs.bin_name }}-${{ needs.meta.outputs.bin_version }}.dmg
       - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
@@ -110,13 +166,23 @@ jobs:
         with:
           name: ${{ needs.meta.outputs.bin_name }} Binary Artifacts
           path: out
+      - name: Download notarized .dmg artifact
+        if: >-
+          needs.meta.outputs.is_release == 'true' ||
+          needs.meta.outputs.is_prerelease == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.meta.outputs.bin_name }}-${{ needs.meta.outputs.bin_version }}.dmg
+          path: out-dmg
       - name: List artifacts
         working-directory: out
         run: ls -R
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          files: out/${{ needs.meta.outputs.bin_name }}-*
+          files: |
+            out/${{ needs.meta.outputs.bin_name }}-*
+            out-dmg/${{ needs.meta.outputs.bin_name }}-*.dmg
           prerelease: ${{ needs.meta.outputs.is_prerelease == 'true' }}
           fail_on_unmatched_files: true
           generate_release_notes: true
